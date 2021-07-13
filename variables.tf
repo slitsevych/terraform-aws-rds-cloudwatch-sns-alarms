@@ -56,3 +56,13 @@ variable "aws_sns_topic_arn" {
   type        = string
   default     = ""
 }
+
+variable "source_type" {
+  type        = string
+  default     = "db-instance"
+  description = "The type of source that will be generating the events"
+  validation {
+    condition     = contains(["db-instance", "db-security-group", "db-parameter-group", "db-snapshot", "db-cluster", "db-cluster-snapshot", "custom-engine-version"], var.source_type)
+    error_message = "Valid options are \"db-instance\", \"db-security-group\", \"db-parameter-group\", \"db-snapshot\", \"db-cluster\" or \"db-cluster-snapshot\", \"custom-engine-version\"."
+  }
+}

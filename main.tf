@@ -14,6 +14,46 @@ module "topic_label" {
 locals {
   create_sns_topic  = var.aws_sns_topic_arn == ""
   aws_sns_topic_arn = local.create_sns_topic ? aws_sns_topic.default.*.arn : [var.aws_sns_topic_arn]
+
+  event_categories = {
+    # A list of event categories for a SourceType that you want to subscribe to.
+    # See http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html
+    # or run aws rds describe-event-categories
+    "db-cluster" : [
+      "failover",
+      "failure",
+      "maintenance",
+      "notification",
+    ],
+    "db-instance" : [
+      "failover",
+      "failure",
+      "low storage",
+      "maintenance",
+      "notification",
+      "recovery",
+    ],
+    "db-security-group" : [
+      "configuration change",
+      "failure",
+    ],
+    "db-parameter-group" : [
+      "configuration change",
+    ],
+    "db-snapshot" : [
+      "creation",
+      "restoration",
+      "deletion",
+      "notification",
+    ],
+    "db-cluster-snapshot" : [
+      "backup",
+      "notification",
+    ],
+    "custom-engine-version" : [
+      "failure",
+    ],
+  }
 }
 
 resource "aws_sns_topic" "default" {
@@ -35,17 +75,10 @@ resource "aws_db_event_subscription" "default" {
   name      = module.subscription_label.id
   sns_topic = join("", local.aws_sns_topic_arn)
 
-  source_type = "db-instance"
+  source_type = var.source_type
   source_ids  = [var.db_instance_id]
 
-  event_categories = [
-    "failover",
-    "failure",
-    "low storage",
-    "maintenance",
-    "notification",
-    "recovery",
-  ]
+  event_categories = local.event_categories[var.source_type]
 
   depends_on = [
     local.aws_sns_topic_arn
