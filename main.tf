@@ -1,15 +1,4 @@
-data "aws_caller_identity" "default" {
-  count = module.this.enabled ? 1 : 0
-}
-
-module "topic_label" {
-  source  = "cloudposse/label/null"
-  version = "0.24.1"
-
-  attributes = ["rds", "threshold", "alerts"]
-
-  context = module.this.context
-}
+data "aws_caller_identity" "default" {}
 
 locals {
   create_sns_topic  = var.aws_sns_topic_arn == ""
@@ -57,22 +46,13 @@ locals {
 }
 
 resource "aws_sns_topic" "default" {
-  count = module.this.enabled && local.create_sns_topic ? 1 : 0
-  name  = module.topic_label.id
-}
-
-module "subscription_label" {
-  source  = "cloudposse/label/null"
-  version = "0.24.1"
-
-  attributes = ["rds", "event", "sub"]
-
-  context = module.this.context
+  count = local.create_sns_topic ? 1 : 0
+  
+  name  = "${var.name_prefix}-rds-alarm-topic"
 }
 
 resource "aws_db_event_subscription" "default" {
-  count     = module.this.enabled ? 1 : 0
-  name      = module.subscription_label.id
+  name      = "${var.name_prefix}-db-event-sub"
   sns_topic = join("", local.aws_sns_topic_arn)
 
   source_type = var.source_type
@@ -86,13 +66,13 @@ resource "aws_db_event_subscription" "default" {
 }
 
 resource "aws_sns_topic_policy" "default" {
-  count  = module.this.enabled && local.create_sns_topic ? 1 : 0
+  count  = local.create_sns_topic ? 1 : 0
   arn    = join("", aws_sns_topic.default.*.arn)
   policy = join("", data.aws_iam_policy_document.sns_topic_policy.*.json)
 }
 
 data "aws_iam_policy_document" "sns_topic_policy" {
-  count = module.this.enabled && local.create_sns_topic ? 1 : 0
+  count = local.create_sns_topic ? 1 : 0
 
   statement {
     sid = "AllowManageSNS"

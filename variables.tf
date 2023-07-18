@@ -3,6 +3,12 @@ variable "db_instance_id" {
   type        = string
 }
 
+variable "name_prefix" {
+  description = "Name prefix for SNS topic and event subscription"
+  type        = string
+  default     = ""
+}
+
 variable "burst_balance_threshold" {
   description = "The minimum percent of General Purpose SSD (gp2) burst-bucket I/O credits available."
   type        = number
@@ -38,9 +44,9 @@ variable "freeable_memory_threshold" {
 variable "free_storage_space_threshold" {
   description = "The minimum amount of available storage space in Byte."
   type        = number
-  default     = 2000000000
+  default     = 5000000000
 
-  # 2 Gigabyte in Byte
+  # 5 Gigabyte in Byte
 }
 
 variable "swap_usage_threshold" {
