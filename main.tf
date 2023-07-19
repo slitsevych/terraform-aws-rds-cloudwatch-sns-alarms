@@ -47,8 +47,8 @@ locals {
 
 resource "aws_sns_topic" "default" {
   count = local.create_sns_topic ? 1 : 0
-  
-  name  = "${var.name_prefix}-rds-alarm-topic"
+
+  name = "${var.name_prefix}-rds-alarm-topic"
 }
 
 resource "aws_db_event_subscription" "default" {
