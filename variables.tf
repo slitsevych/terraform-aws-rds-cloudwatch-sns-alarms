@@ -57,6 +57,23 @@ variable "swap_usage_threshold" {
   # 256 Megabyte in Byte
 }
 
+variable "metric_alarm_period" {
+  description = "Duration in seconds to evaluate for the alarm"
+  type        = number
+  default     = 300
+
+  # 5 minutes
+}
+
+
+variable "evaluation_periods" {
+  description = "Number of periods to evaluate for the alarm"
+  type        = number
+  default     = 2
+}
+
+
+
 variable "aws_sns_topic_arn" {
   description = "ARN of an already existing SNS topic."
   type        = string

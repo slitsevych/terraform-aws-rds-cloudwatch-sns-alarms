@@ -29,16 +29,16 @@ locals {
     "db-parameter-group" : [
       "configuration change",
     ],
-    "db-snapshot" : [
-      "creation",
-      "restoration",
-      "deletion",
-      "notification",
-    ],
-    "db-cluster-snapshot" : [
-      "backup",
-      "notification",
-    ],
+    # "db-snapshot" : [
+    #   "creation",
+    #   "restoration",
+    #   "deletion",
+    #   "notification",
+    # ],
+    # "db-cluster-snapshot" : [
+    #   "backup",
+    #   "notification",
+    # ],
     "custom-engine-version" : [
       "failure",
     ],
