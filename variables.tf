@@ -65,19 +65,22 @@ variable "metric_alarm_period" {
   # 5 minutes
 }
 
-
 variable "evaluation_periods" {
   description = "Number of periods to evaluate for the alarm"
   type        = number
   default     = 2
 }
 
-
-
 variable "aws_sns_topic_arn" {
   description = "ARN of an already existing SNS topic."
   type        = string
   default     = ""
+}
+
+variable "use_sns_topic_for_alarms" {
+  description = "Should we use sns topic for ok and alarm actions?"
+  type        = bool
+  default     = true
 }
 
 variable "source_type" {

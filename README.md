@@ -113,10 +113,12 @@ No modules.
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Name prefix for SNS topic and event subscription | `string` | `""` | no |
 | <a name="input_source_type"></a> [source\_type](#input\_source\_type) | The type of source that will be generating the events | `string` | `"db-instance"` | no |
 | <a name="input_swap_usage_threshold"></a> [swap\_usage\_threshold](#input\_swap\_usage\_threshold) | The maximum amount of swap space used on the DB instance in Byte. | `number` | `256000000` | no |
+| <a name="input_use_sns_topic_for_alarms"></a> [use\_sns\_topic\_for\_alarms](#input\_use\_sns\_topic\_for\_alarms) | Should we use sns topic for ok and alarm actions? | `bool` | `true` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
+| <a name="output_rds_alarms_list"></a> [rds\_alarms\_list](#output\_rds\_alarms\_list) | The list of all alarms |
 | <a name="output_sns_topic_arn"></a> [sns\_topic\_arn](#output\_sns\_topic\_arn) | The ARN of the SNS topic |
 <!-- END_TF_DOCS -->
