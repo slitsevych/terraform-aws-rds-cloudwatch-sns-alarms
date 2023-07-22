@@ -109,13 +109,6 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_too_low" {
   period              = var.metric_alarm_period
   statistic           = "Average"
   threshold           = local.thresholds["FreeStorageSpaceThreshold"]
-  alarm_description = format(
-    var.alarm_description,
-    "CPU",
-    "High",
-    var.cpu_utilization_high_period / 60,
-    var.cpu_utilization_high_evaluation_periods
-  )
   alarm_description   = "Average ${var.name_prefix} database free storage space over last 5 minutes is too low"
   alarm_actions       = var.use_sns_topic_for_alarms == true ? local.aws_sns_topic_arn : []
   ok_actions          = var.use_sns_topic_for_alarms == true ? local.aws_sns_topic_arn : []
