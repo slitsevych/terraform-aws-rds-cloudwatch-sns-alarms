@@ -53,7 +53,7 @@ resource "aws_db_instance" "default" {
 }
 
 module "rds_alarms" {
-  source            = ""
+  source            = "slitsevych/rds-cloudwatch-sns-alarms/aws"
   name_prefix       = local.name_prefix
   db_instance_id    = aws_db_instance.default.id
   aws_sns_topic_arn = module.sns.topic_arn
