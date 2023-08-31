@@ -92,3 +92,9 @@ variable "source_type" {
     error_message = "Valid options are \"db-instance\", \"db-security-group\", \"db-parameter-group\", \"db-snapshot\", \"db-cluster\" or \"db-cluster-snapshot\", \"custom-engine-version\"."
   }
 }
+
+variable "tags" {
+  description = "A map of tags to add to all resources"
+  type        = map(any)
+  default     = {}
+}
